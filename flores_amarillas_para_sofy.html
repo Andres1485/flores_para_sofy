@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Para Sofy 🌼</title>
+  <meta name="description" content="Un pequeño detalle lleno de flores amarillas para Sofy." />
+  <style>
+    :root{
+      --cream:#fffaf0;
+      --paper:#fffdf7;
+      --yellow:#ffd84d;
+      --yellow2:#ffb300;
+      --gold:#d99200;
+      --green:#4b7a46;
+      --ink:#4b3b27;
+      --soft:#8d7b64;
+      --pink:#f4a7b9;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:100%;min-height:100%;overflow-x:hidden}
+    body{
+      font-family: Georgia, "Times New Roman", serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 15% 15%, rgba(255,216,77,.20), transparent 22%),
+        radial-gradient(circle at 85% 80%, rgba(244,167,185,.14), transparent 24%),
+        linear-gradient(135deg,#fff9ea,#fffdf8 55%,#fff6d7);
+      min-height:100vh;
+    }
+
+    button{font:inherit}
+
+    .petals,.sparkles{
+      position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:1;
+    }
+
+    .petal{
+      position:absolute;
+      width:12px;height:7px;
+      background:rgba(255,208,55,.55);
+      border-radius:100% 0 100% 0;
+      transform:rotate(35deg);
+      animation:fall linear infinite;
+      filter:blur(.1px);
+    }
+    @keyframes fall{
+      from{transform:translate3d(0,-12vh,0) rotate(10deg)}
+      to{transform:translate3d(18vw,112vh,0) rotate(410deg)}
+    }
+
+    .spark{
+      position:absolute;
+      width:4px;height:4px;border-radius:50%;
+      background:#ffe990;
+      box-shadow:0 0 12px 2px rgba(255,217,88,.75);
+      animation:twinkle ease-in-out infinite;
+    }
+    @keyframes twinkle{
+      0%,100%{opacity:.2;transform:scale(.7)}
+      50%{opacity:1;transform:scale(1.45)}
+    }
+
+    main{
+      width:100%;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:26px 14px;
+      position:relative;
+      z-index:2;
+    }
+
+    .stage{
+      width:min(980px,100%);
+      min-height:min(760px,92vh);
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .screen{
+      width:100%;
+      min-height:min(760px,92vh);
+      padding:36px 24px;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      animation:appear .75s ease;
+    }
+    .screen.active{display:flex}
+    @keyframes appear{
+      from{opacity:0;transform:translateY(14px) scale(.98)}
+      to{opacity:1;transform:translateY(0) scale(1)}
+    }
+
+    .content{max-width:790px;width:100%}
+
+    .eyebrow{
+      display:inline-block;
+      padding:8px 14px;
+      border:1px solid rgba(217,146,0,.22);
+      border-radius:999px;
+      background:rgba(255,255,255,.55);
+      color:var(--gold);
+      font-size:.82rem;
+      letter-spacing:.11em;
+      text-transform:uppercase;
+      margin-bottom:18px;
+      backdrop-filter:blur(6px);
+    }
+
+    h1{
+      font-size:clamp(3rem,8vw,6.6rem);
+      line-height:.92;
+      letter-spacing:-.05em;
+      margin-bottom:22px;
+      color:#5a4324;
+    }
+
+    .script{
+      font-family:"Brush Script MT","Segoe Script",cursive;
+      font-weight:400;
+      letter-spacing:.01em;
+    }
+
+    .subtitle{
+      max-width:700px;
+      margin:0 auto 26px;
+      font-size:clamp(1.05rem,2.8vw,1.4rem);
+      line-height:1.7;
+      color:#6c5a43;
+    }
+
+    .highlight{
+      color:#d38b00;
+      font-weight:700;
+    }
+
+    .btn{
+      border:0;
+      cursor:pointer;
+      padding:15px 25px;
+      border-radius:999px;
+      background:linear-gradient(135deg,#ffd74a,#ffbd21);
+      color:#5a430f;
+      font-weight:700;
+      font-size:1rem;
+      box-shadow:0 12px 30px rgba(209,150,17,.24), inset 0 1px 0 rgba(255,255,255,.65);
+      transition:.25s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    .btn::before{
+      content:"";
+      position:absolute;inset:0;
+      background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.55),transparent 65%);
+      transform:translateX(-120%);
+      transition:.6s ease;
+    }
+    .btn:hover::before{transform:translateX(120%)}
+    .btn:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(209,150,17,.28)}
+    .btn:active{transform:translateY(-1px)}
+
+    .tiny{
+      margin-top:16px;
+      color:#9b8c77;
+      font-size:.9rem;
+    }
+
+    /* Bouquet */
+    .bouquet-wrap{
+      position:relative;
+      width:min(620px,100%);
+      height:470px;
+      margin:0 auto 20px;
+    }
+
+    .stem{
+      position:absolute;
+      width:8px;
+      height:250px;
+      background:linear-gradient(90deg,#477344,#78a66f,#3f6c3e);
+      left:50%;
+      bottom:28px;
+      transform-origin:bottom;
+      border-radius:8px;
+      z-index:2;
+    }
+    .stem.s1{transform:rotate(-23deg);height:238px}
+    .stem.s2{transform:rotate(-11deg);height:275px}
+    .stem.s3{transform:rotate(10deg);height:290px}
+    .stem.s4{transform:rotate(25deg);height:235px}
+
+    .leaf{
+      position:absolute;
+      width:90px;height:44px;
+      background:linear-gradient(135deg,#5e8d58,#8ab67f);
+      border-radius:100% 0 100% 0;
+      z-index:3;
+    }
+    .leaf.l1{left:17%;bottom:135px;transform:rotate(-28deg)}
+    .leaf.l2{left:23%;bottom:90px;transform:rotate(16deg) scale(.82)}
+    .leaf.l3{right:14%;bottom:140px;transform:scaleX(-1) rotate(-25deg)}
+    .leaf.l4{right:21%;bottom:94px;transform:scaleX(-1) rotate(14deg) scale(.78)}
+
+    .flower{
+      position:absolute;
+      width:170px;height:170px;
+      left:50%;top:44px;
+      transform:translateX(-50%);
+      z-index:7;
+    }
+    .flower.f1{left:24%;top:70px;transform:translateX(-50%) scale(.85) rotate(-13deg)}
+    .flower.f2{left:38%;top:30px;transform:translateX(-50%) scale(.95) rotate(8deg)}
+    .flower.f3{left:56%;top:8px;transform:translateX(-50%) scale(1.1) rotate(-5deg)}
+    .flower.f4{left:73%;top:55px;transform:translateX(-50%) scale(.87) rotate(14deg)}
+
+    .petals-flower{
+      position:absolute;inset:0;
+    }
+    .fp{
+      position:absolute;
+      left:50%;top:50%;
+      width:62px;height:90px;
+      border-radius:70% 30% 70% 30%;
+      background:linear-gradient(180deg,#ffe875,#fbc02d);
+      transform-origin:0 50%;
+      box-shadow:0 4px 9px rgba(184,135,9,.12);
+    }
+    .fp:nth-child(1){transform:translate(0,-50%) rotate(0deg) translateX(5px)}
+    .fp:nth-child(2){transform:translate(0,-50%) rotate(45deg) translateX(5px)}
+    .fp:nth-child(3){transform:translate(0,-50%) rotate(90deg) translateX(5px)}
+    .fp:nth-child(4){transform:translate(0,-50%) rotate(135deg) translateX(5px)}
+    .fp:nth-child(5){transform:translate(0,-50%) rotate(180deg) translateX(5px)}
+    .fp:nth-child(6){transform:translate(0,-50%) rotate(225deg) translateX(5px)}
+    .fp:nth-child(7){transform:translate(0,-50%) rotate(270deg) translateX(5px)}
+    .fp:nth-child(8){transform:translate(0,-50%) rotate(315deg) translateX(5px)}
+
+    .center{
+      position:absolute;
+      width:56px;height:56px;
+      border-radius:50%;
+      left:50%;top:50%;
+      transform:translate(-50%,-50%);
+      background:
+        radial-gradient(circle at 35% 35%,#9a640e 0 5%,transparent 6%),
+        radial-gradient(circle at 65% 40%,#9a640e 0 5%,transparent 6%),
+        radial-gradient(circle at 45% 68%,#9a640e 0 5%,transparent 6%),
+        radial-gradient(circle at 72% 67%,#9a640e 0 4%,transparent 5%),
+        #a76f08;
+      box-shadow:0 4px 11px rgba(118,77,4,.25);
+      z-index:10;
+    }
+
+    .bouquet-caption{
+      font-size:clamp(1rem,2.4vw,1.18rem);
+      color:#755f40;
+      max-width:650px;
+      margin:0 auto;
+      line-height:1.65;
+    }
+
+    /* Letter */
+    .letter-card{
+      position:relative;
+      width:min(720px,100%);
+      background:rgba(255,253,247,.95);
+      border:1px solid rgba(173,139,78,.18);
+      border-radius:28px;
+      padding:42px clamp(22px,5vw,58px);
+      box-shadow:0 25px 70px rgba(116,87,37,.13);
+      text-align:left;
+      overflow:hidden;
+    }
+    .letter-card::before,
+    .letter-card::after{
+      content:"";
+      position:absolute;
+      width:150px;height:150px;
+      border-radius:50%;
+      background:rgba(255,216,77,.14);
+      filter:blur(1px);
+    }
+    .letter-card::before{right:-60px;top:-60px}
+    .letter-card::after{left:-70px;bottom:-90px;background:rgba(244,167,185,.09)}
+
+    .letter-top{
+      text-align:center;
+      margin-bottom:25px;
+    }
+    .letter-top h2{
+      font-size:clamp(2rem,5vw,3.2rem);
+      color:#5a4324;
+      margin-bottom:9px;
+    }
+    .letter-top p{color:#a18458;font-style:italic}
+
+    .letter-body{
+      font-size:1.1rem;
+      line-height:1.9;
+      color:#654f35;
+      position:relative;
+      z-index:2;
+    }
+    .letter-body p{margin-bottom:16px}
+    .quote{
+      margin:24px 0;
+      padding:18px 20px;
+      border-left:4px solid var(--yellow2);
+      background:#fff9df;
+      border-radius:0 15px 15px 0;
+      font-size:1.18rem;
+      font-weight:700;
+      color:#70501c;
+    }
+    .signature{
+      text-align:right;
+      margin-top:26px;
+      font-family:"Brush Script MT","Segoe Script",cursive;
+      font-size:2rem;
+      color:#8e5e15;
+    }
+
+    .chips{
+      display:flex;gap:9px;flex-wrap:wrap;
+      justify-content:center;
+      margin:24px auto 0;
+    }
+    .chip{
+      padding:8px 12px;
+      border-radius:999px;
+      background:#fff7d0;
+      color:#795d22;
+      font-size:.88rem;
+      border:1px solid rgba(217,146,0,.13);
+    }
+
+    .final-card{
+      max-width:700px;
+      padding:46px 25px;
+      position:relative;
+    }
+    .final-flower{
+      font-size:4rem;
+      margin-bottom:16px;
+      animation:bob 2.8s ease-in-out infinite;
+    }
+    @keyframes bob{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-10px) rotate(4deg)}}
+    .final-card h2{
+      font-size:clamp(2.3rem,7vw,4.5rem);
+      margin-bottom:16px;
+      color:#5a4324;
+    }
+    .final-card p{
+      font-size:1.2rem;
+      line-height:1.8;
+      color:#705d45;
+      max-width:650px;
+      margin:0 auto 20px;
+    }
+
+    .nav-row{
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:23px;
+    }
+    .ghost{
+      background:rgba(255,255,255,.67);
+      color:#7b653e;
+      box-shadow:none;
+      border:1px solid rgba(173,139,78,.18);
+    }
+
+    .counter{
+      position:fixed;
+      bottom:14px;
+      left:50%;
+      transform:translateX(-50%);
+      z-index:9;
+      color:#a18c70;
+      font-size:.78rem;
+      background:rgba(255,255,255,.5);
+      padding:7px 11px;
+      border-radius:999px;
+      backdrop-filter:blur(6px);
+    }
+
+    @media (max-width:640px){
+      main{padding:13px 9px}
+      .screen{padding:25px 10px;min-height:88vh}
+      .bouquet-wrap{height:390px;transform:scale(.85);transform-origin:top center;margin-bottom:-20px}
+      .letter-card{padding:30px 21px}
+      .letter-body{font-size:1rem;line-height:1.78}
+      .btn{width:100%;max-width:320px}
+      .nav-row .btn{width:auto}
+    }
+  
+    /* Flower shower */
+    .flower-shower{
+      position:relative;
+      width:min(950px,100%);
+      height:560px;
+      margin:0 auto 10px;
+      overflow:hidden;
+      border-radius:32px;
+      background:
+        radial-gradient(circle at 50% 45%, rgba(255,242,169,.18), transparent 35%),
+        linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,244,196,.10));
+      border:1px solid rgba(217,146,0,.10);
+      box-shadow:inset 0 0 50px rgba(255,214,79,.07);
+    }
+
+    .floating-flower{
+      position:absolute;
+      bottom:-80px;
+      left:var(--x);
+      width:var(--size);
+      height:var(--size);
+      opacity:.96;
+      z-index:3;
+      animation:
+        rise var(--dur) linear infinite,
+        sway var(--sway) ease-in-out infinite alternate;
+      animation-delay:var(--delay),var(--swaydelay);
+      filter:drop-shadow(0 7px 10px rgba(157,112,11,.15));
+    }
+
+    .floating-flower .petal{
+      position:absolute;
+      left:50%;
+      top:50%;
+      width:37%;
+      height:52%;
+      border-radius:72% 28% 72% 28%;
+      background:linear-gradient(180deg,#fff08c,#ffc629);
+      transform-origin:0 50%;
+      opacity:.98;
+      box-shadow:0 2px 5px rgba(169,119,5,.10);
+    }
+    .floating-flower .petal:nth-child(1){transform:translate(0,-50%) rotate(0deg)}
+    .floating-flower .petal:nth-child(2){transform:translate(0,-50%) rotate(45deg)}
+    .floating-flower .petal:nth-child(3){transform:translate(0,-50%) rotate(90deg)}
+    .floating-flower .petal:nth-child(4){transform:translate(0,-50%) rotate(135deg)}
+    .floating-flower .petal:nth-child(5){transform:translate(0,-50%) rotate(180deg)}
+    .floating-flower .petal:nth-child(6){transform:translate(0,-50%) rotate(225deg)}
+    .floating-flower .petal:nth-child(7){transform:translate(0,-50%) rotate(270deg)}
+    .floating-flower .petal:nth-child(8){transform:translate(0,-50%) rotate(315deg)}
+
+    .flower-core{
+      position:absolute;
+      width:31%;
+      height:31%;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%);
+      border-radius:50%;
+      background:
+        radial-gradient(circle at 32% 35%, #a26700 0 6%, transparent 7%),
+        radial-gradient(circle at 67% 35%, #a26700 0 6%, transparent 7%),
+        radial-gradient(circle at 42% 68%, #a26700 0 6%, transparent 7%),
+        radial-gradient(circle at 70% 67%, #a26700 0 5%, transparent 6%),
+        #b87500;
+      box-shadow:0 2px 6px rgba(118,77,4,.18);
+    }
+
+    @keyframes rise{
+      0%{transform:translateY(0) rotate(0deg) scale(.82);opacity:0}
+      8%{opacity:.98}
+      70%{opacity:.96}
+      100%{transform:translateY(-690px) rotate(360deg) scale(1.05);opacity:0}
+    }
+    @keyframes sway{
+      0%{margin-left:-10px}
+      100%{margin-left:16px}
+    }
+
+    .short-phrase{
+      position:absolute;
+      left:var(--px);
+      top:var(--py);
+      z-index:8;
+      padding:9px 14px;
+      border-radius:999px;
+      background:rgba(255,253,245,.83);
+      border:1px solid rgba(217,146,0,.12);
+      box-shadow:0 8px 22px rgba(111,83,33,.10);
+      backdrop-filter:blur(7px);
+      color:#76561f;
+      font-size:clamp(.76rem,1.8vw,.98rem);
+      font-weight:700;
+      animation:phraseFloat var(--pd) ease-in-out infinite;
+      animation-delay:var(--pdelay);
+      white-space:nowrap;
+    }
+    @keyframes phraseFloat{
+      0%,100%{opacity:.25;transform:translateY(8px) scale(.96)}
+      50%{opacity:1;transform:translateY(-7px) scale(1)}
+    }
+
+    .flower-message{
+      margin:18px auto 0;
+      max-width:720px;
+      font-size:clamp(1rem,2.5vw,1.18rem);
+      line-height:1.7;
+      color:#6f5a3e;
+    }
+
+    @media (max-width:640px){
+      .flower-shower{height:500px;border-radius:24px}
+      .short-phrase{padding:7px 11px;font-size:.73rem}
+    }
+
+  </style>
+</head>
+<body>
+  <div class="petals" id="petals"></div>
+  <div class="sparkles" id="sparkles"></div>
+
+  <main>
+    <div class="stage">
+
+      <!-- 1 -->
+      <section class="screen active" id="screen1">
+        <div class="content">
+          <span class="eyebrow">Un pequeño detalle 💛</span>
+          <h1><span class="script">Hola,</span><br>Sofy 🌼</h1>
+          <p class="subtitle">
+            Quizás hoy no pueda darte tus <span class="highlight">flores amarillas</span> en persona...
+            pero eso no significa que no quisiera darte un pequeño detalle.
+          </p>
+          <button class="btn" onclick="goTo(2)">Hay algo para ti ✨</button>
+          <p class="tiny">Toca el botón. Prometo que vale la pena.</p>
+        </div>
+      </section>
+
+      <!-- 2 -->
+      <section class="screen" id="screen2">
+        <div class="content">
+          <span class="eyebrow">Para ti, con cariño 🌻</span>
+          <div class="flower-shower" id="flowerShower" aria-label="Lluvia de flores amarillas">
+            <span class="short-phrase" style="--px:8%;--py:16%;--pd:3.1s;--pdelay:-.4s">Eres increíble ✨</span>
+            <span class="short-phrase" style="--px:63%;--py:12%;--pd:3.6s;--pdelay:-1.2s">Vales muchísimo 💛</span>
+            <span class="short-phrase" style="--px:33%;--py:28%;--pd:3.3s;--pdelay:-1.8s">Nunca lo olvides 🌼</span>
+            <span class="short-phrase" style="--px:72%;--py:39%;--pd:3.8s;--pdelay:-.7s">Eres especial 🌻</span>
+            <span class="short-phrase" style="--px:7%;--py:54%;--pd:3.4s;--pdelay:-2.3s">Sigue brillando ✨</span>
+            <span class="short-phrase" style="--px:42%;--py:63%;--pd:3.7s;--pdelay:-1.4s">Mereces cosas bonitas 💛</span>
+            <span class="short-phrase" style="--px:68%;--py:72%;--pd:3.2s;--pdelay:-.2s">Qué orgullo de ti 🌼</span>
+            <span class="short-phrase" style="--px:23%;--py:80%;--pd:3.9s;--pdelay:-2.1s">Nunca dejes de florecer 🌻</span>
+            <span class="short-phrase" style="--px:49%;--py:11%;--pd:3.5s;--pdelay:-2.8s">Eres única 💫</span>
+          </div>
+
+          <p class="flower-message">
+            Puede que hoy no lleguen a tus manos unas flores de verdad,
+            pero quería que por un momento tu pantalla se llenara de ellas.
+            <span class="highlight">Una por cada cosa bonita que mereces.</span> 🌻
+          </p>
+
+          <div class="nav-row">
+            <button class="btn ghost" onclick="goTo(1)">Volver</button>
+            <button class="btn" onclick="goTo(3)">Leer algo más 💌</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3 -->
+      <section class="screen" id="screen3">
+        <div class="content">
+          <div class="letter-card">
+            <div class="letter-top">
+              <h2>Para Sofy</h2>
+              <p>Porque a veces unas flores también pueden llevar palabras.</p>
+            </div>
+
+            <div class="letter-body">
+              <p>
+                Quería decirte algo que quizás no digo tanto como debería:
+                <strong>eres una persona muy especial</strong>, y de verdad espero que nunca
+                olvides lo mucho que vales.
+              </p>
+
+              <p>
+                Eres de esas personas que dejan algo bonito en los demás simplemente
+                siendo ellas mismas. Y aunque a veces tú no lo notes, hay muchas cosas
+                que haces bien, muchas cosas que has logrado y muchas razones para
+                sentirte orgullosa de ti.
+              </p>
+
+              <div class="quote">
+                “No tienes que demostrarle a nadie que eres increíble.
+                Ya lo eres, incluso en los días en los que no te sientas así.”
+              </div>
+
+              <p>
+                Admiro mucho la manera en la que haces las cosas. Tu forma de seguir,
+                de intentar, de aprender y de dar lo mejor de ti.
+                <strong>Eres la mejor en todo lo que haces cuando te propones algo</strong>,
+                y mereces que alguien te recuerde eso de vez en cuando.
+              </p>
+
+              <p>
+                Así que guarda estas flores como un pequeño recordatorio:
+                <strong>vales muchísimo, eres suficiente, eres importante y mereces cosas bonitas.</strong>
+                No permitas que un día malo te haga olvidar todo lo bueno que hay en ti.
+              </p>
+
+              <p>
+                Y sí... quizás hoy no llegaron unas flores amarillas de verdad a tus manos,
+                pero quería que al menos llegarán estas palabras. 💛
+              </p>
+
+              <div class="signature">Con mucho cariño 🌻</div>
+
+              <div class="chips">
+                <span class="chip">valiosa</span>
+                <span class="chip">fuerte</span>
+                <span class="chip">increíble</span>
+                <span class="chip">especial</span>
+                <span class="chip">única</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="nav-row">
+            <button class="btn ghost" onclick="goTo(2)">Volver a las flores 🌼</button>
+            <button class="btn" onclick="goTo(4)">Una última cosita... ✨</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4 -->
+      <section class="screen" id="screen4">
+        <div class="content final-card">
+          <div class="final-flower">🌻</div>
+          <span class="eyebrow">Y antes de irte...</span>
+          <h2 class="script">Nunca olvides esto.</h2>
+          <p>
+            Aunque hoy solo puedas ver una pantalla,
+            detrás de ella hay alguien que quiso hacerte sonreír,
+            recordarte lo mucho que vales y decirte:
+            <strong>ojalá nunca te falten razones para florecer.</strong>
+          </p>
+          <p class="highlight" style="font-size:1.3rem">
+            Feliz día de las flores amarillas, Sofy. 💛
+          </p>
+
+          <div class="nav-row">
+            <button class="btn ghost" onclick="goTo(3)">Volver a la carta</button>
+            <button class="btn" onclick="burst()">Haz clic aquí 🌼</button>
+          </div>
+          <p class="tiny">P.D. Si sonreíste aunque sea un poquito, misión cumplida. ✨</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <div class="counter" id="counter">1 / 4</div>
+
+  <script>
+    const screens = [1,2,3,4];
+
+    function goTo(n){
+      screens.forEach(i => {
+        document.getElementById("screen"+i).classList.toggle("active", i===n);
+      });
+      document.getElementById("counter").textContent = n + " / 4";
+      window.scrollTo({top:0, behavior:"smooth"});
+      if(n===2) flowerPulse();
+    }
+
+    function flowerPulse(){
+      document.querySelectorAll(".floating-flower").forEach((f,i)=>{
+        f.animate(
+          [
+            {filter:"drop-shadow(0 7px 10px rgba(157,112,11,.10))", opacity:.85},
+            {filter:"drop-shadow(0 9px 17px rgba(255,196,32,.34))", opacity:1},
+            {filter:"drop-shadow(0 7px 10px rgba(157,112,11,.10))", opacity:.92}
+          ],
+          {duration:900 + (i%7)*70, delay:(i%5)*60, easing:"ease-in-out"}
+        );
+      });
+    }
+
+    function burst(){
+      const colors = ["#ffd84d","#ffec8a","#fff3b5","#f4a7b9","#ffffff"];
+      for(let i=0;i<70;i++){
+        const p=document.createElement("div");
+        p.style.position="fixed";
+        p.style.left="50%";
+        p.style.top="58%";
+        p.style.width=(5+Math.random()*8)+"px";
+        p.style.height=(5+Math.random()*8)+"px";
+        p.style.borderRadius="50%";
+        p.style.background=colors[Math.floor(Math.random()*colors.length)];
+        p.style.zIndex="100";
+        p.style.pointerEvents="none";
+        document.body.appendChild(p);
+
+        const dx=(Math.random()-.5)*window.innerWidth*1.2;
+        const dy=(Math.random()-.75)*window.innerHeight*1.2;
+
+        p.animate(
+          [
+            {transform:"translate(-50%,-50%) scale(1)", opacity:1},
+            {transform:`translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) rotate(${Math.random()*700-350}deg) scale(.2)`, opacity:0}
+          ],
+          {duration:1100+Math.random()*900, easing:"cubic-bezier(.2,.8,.2,1)"}
+        ).onfinish=()=>p.remove();
+      }
+    }
+
+
+    // Many floating yellow flowers
+    const shower = document.getElementById("flowerShower");
+    const flowerCount = 36;
+
+    for(let i = 0; i < flowerCount; i++){
+      const flower = document.createElement("div");
+      flower.className = "floating-flower";
+      flower.style.setProperty("--x", `${-4 + Math.random() * 108}%`);
+      flower.style.setProperty("--size", `${28 + Math.random() * 54}px`);
+      flower.style.setProperty("--dur", `${7 + Math.random() * 7}s`);
+      flower.style.setProperty("--delay", `${-Math.random() * 12}s`);
+      flower.style.setProperty("--sway", `${1.7 + Math.random() * 2.8}s`);
+      flower.style.setProperty("--swaydelay", `${-Math.random() * 3}s`);
+
+      for(let j=0;j<8;j++){
+        const petal = document.createElement("span");
+        petal.className = "petal";
+        flower.appendChild(petal);
+      }
+
+      const core = document.createElement("span");
+      core.className = "flower-core";
+      flower.appendChild(core);
+
+      shower.appendChild(flower);
+    }
+
+    // Ambient petals
+    const petals = document.getElementById("petals");
+    for(let i=0;i<24;i++){
+      const p=document.createElement("span");
+      p.className="petal";
+      p.style.left=(Math.random()*100)+"%";
+      p.style.animationDuration=(8+Math.random()*12)+"s";
+      p.style.animationDelay=(-Math.random()*18)+"s";
+      p.style.opacity=(.22+Math.random()*.6).toFixed(2);
+      p.style.transform=`rotate(${Math.random()*360}deg)`;
+      petals.appendChild(p);
+    }
+
+    // Tiny sparkles
+    const sparkles = document.getElementById("sparkles");
+    for(let i=0;i<35;i++){
+      const s=document.createElement("span");
+      s.className="spark";
+      s.style.left=(Math.random()*100)+"%";
+      s.style.top=(Math.random()*100)+"%";
+      s.style.animationDuration=(1.6+Math.random()*3)+"s";
+      s.style.animationDelay=(-Math.random()*4)+"s";
+      s.style.opacity=(.25+Math.random()*.6).toFixed(2);
+      sparkles.appendChild(s);
+    }
+  </script>
+</body>
+</html>
